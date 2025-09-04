@@ -26,6 +26,29 @@ class TaskController extends Controller
     }
 
     /**
+     * Show task by id
+     * GET /api/tasks/{task}
+     */
+
+    public function showById($id): JsonResponse
+    {
+      $task = Task::find($id); //laravel method to find by id
+
+      if(!$task){ //if the task id has not found
+        return response()->json([
+            'success' => false,
+            'message' => 'Task not found ❌',
+        ], 404); // Laravel method to spend an 404 error
+      }else{ //if the task id has been found
+        return response()->json([
+            'success' => true,
+            'message' => 'Task found ✅',
+            'data' => $task,
+        ]);
+      }
+    }
+
+    /**
      * Create a new task
      * POST /api/tasks
      */
