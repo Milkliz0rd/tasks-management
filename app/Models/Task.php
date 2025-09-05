@@ -89,6 +89,40 @@ class Task extends Model
         return $query->where('status', $status);
     }
 
+    /** 
+     * Scope to filter by status Pending
+     * 
+     * @param Builder $query (The Laravel method to build the promise)
+     * @return Builder
+    */
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->where('status','pending'); //ask to return only task with satuts pending
+    }
+
+    /** 
+     * Scope to filter by priority Low
+     * 
+     * @param Builder $query (The Laravel method to build the promise)
+     * @return Builder
+    */
+    public function scopeLow(Builder $query): Builder
+    {
+        return $query->where('priority','low'); //ask to return only task with priority low
+    }
+
+    /** 
+     * Scope for recent task
+     * 
+     * @param Builder $query (The Laravel method to build the promise)
+     * @return Builder
+    */
+    public function scopeLatest(Builder $query): Builder
+    {
+        return $query->where('created_at', '>', today()->toDateString());
+    }
+
+
     /**
      * Scope for late tasks
      *

@@ -25,6 +25,29 @@ class TaskController extends Controller
         ]);
     }
 
+
+    /** ------ Exercices section ------ */
+
+        /**
+     * Show task with pending status, low priority & sorted
+     * by creation date (most recent first)
+     * GET /api/tasks/pending-low-priority
+     */
+
+    public function pendingLow(): JsonResponse
+    {
+        $task = Task::pending()->low()->latest('created_at')->get(); 
+        //I use the scope pending & low
+        // Laravel already has a method to sort by latest records
+        return response()->json([
+            'success' => true,
+            'message' => 'Tasks found ✅',
+            'data' => $task,
+        ]);
+    }
+
+
+
     /**
      * Show task by id
      * GET /api/tasks/{task}
@@ -34,12 +57,16 @@ class TaskController extends Controller
     {
       $task = Task::find($id); //laravel method to find by id
 
-      if(!$task){ //if the task id has not found
+      //if the task id has not found
+      if(!$task){
         return response()->json([
             'success' => false,
             'message' => 'Task not found ❌',
-        ], 404); // Laravel method to spend an 404 error
-      }else{ //if the task id has been found
+        ], 404);
+         // Laravel method to spend an 404 error
+
+        //if the task id has been found
+      }else{ 
         return response()->json([
             'success' => true,
             'message' => 'Task found ✅',
@@ -47,6 +74,9 @@ class TaskController extends Controller
         ]);
       }
     }
+
+    /**  ------ end ------ */
+
 
     /**
      * Create a new task
